@@ -6,9 +6,10 @@ end
 
 if ~isempty(feasible_indicator)
   if sum(feasible_indicator) > 1, 
-    perm_inds = randsample(find(feasible_indicator), sum(feasible_indicator));
+    feasible_inds = find(feasible_indicator);
+    perm_inds = feasible_inds(randperm(numel(feasible_inds)));
   else
-    perm_inds = find(truly_feasible);
+    perm_inds = find(feasible_indicator);
   end
 
 else
@@ -24,7 +25,7 @@ if nargin<3
    warningOn = false;
 end
 
-if warningOn and sum(vector_permuted == maxval)>1
+if warningOn && sum(vector_permuted == maxval)>1
   warning('WarnAlgorithm:tiebreakHappen', ...
     sprintf('tie break happened! tie for %d counts.', ...
     sum(vector_permuted == maxval)));
